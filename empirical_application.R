@@ -14,7 +14,7 @@ install_github("cran/kedd")
 library(ggplot2)
 library(dplyr)
 library(np) # Nonparametric Kernel Smoothing Methods for Mixed Data Types
-library(KernSmooth) 
+library(KernSmooth)
 ?KernSmooth
 library(remotes) # enable installation of github packages
 library(kedd)
@@ -23,16 +23,16 @@ library(kedd)
 pct_nulls <- function(data) {
   # Calculate the total number of rows in the data frame
   total_rows <- nrow(data)
-  
+
   # Calculate the proportion of nulls in each column
   pct_nulls <- sapply(data, function(x) sum(is.na(x)) / total_rows)
-  
+
   # Create a data frame to store the results
   result_df <- data.frame(
     Column = names(data),
     pct_null = pct_nulls
   )
-  
+
   return(result_df)
 }
 
@@ -54,6 +54,9 @@ setwd("/Users/sam/Documents/TSE/M2/TSE M2 S1/Nonparametric econometric methods/P
 
 # Replace "path/to/your/directory" with the actual path to the directory you want to set as your working directory.
 
+# Alternatively, download from the web
+df <- read.csv("https://query.data.world/s/fpexibocaqatb6x6wghopimatt2ur4?dws=00000", header=TRUE, stringsAsFactors=FALSE)
+
 # Load the CSV file into a data frame
 data_folder <- "data"
 file_name <- "fortune500.csv"
@@ -71,12 +74,12 @@ nrow(df)
 pct_nulls <- pct_nulls(df)
 pct_nulls
 
-## 
+##
 revenue_col_value <- "highlights.0.value"
 company_id <- "title"
-company_revenues <- df %>% 
+company_revenues <- df %>%
   dplyr::select(c(company_id, revenue_col_value)) %>%
-  dplyr::rename(revenue = revenue_col_value, company = company_id) 
+  dplyr::rename(revenue = revenue_col_value, company = company_id)
 
 head(company_revenues)
 paste("Shape of df: (", nrow(df),",", length(df), ")")
@@ -95,9 +98,9 @@ revenue <- company_revenues$revenue
 #########################
 ## Find an optimal h with NSR method and estimate density function with KDE
 ##### NEED TO TRANSFORM DATA TO BE SYMMETRIC to use this NSR method
-##### because NSR relies on assumption that the true density is close to a 
+##### because NSR relies on assumption that the true density is close to a
 ##### Gausisian density. If this is not the case, then the obtained smoothing
-##### and corresponding density estimates are not reliable.... so requires 
+##### and corresponding density estimates are not reliable.... so requires
 ##### the transformation
 #########################
 log_revenue <- log(company_revenues$revenue)
@@ -166,7 +169,7 @@ plot(dens_est_h_gaus_biw_bcv, type="l", ylab="Density", xlab="Revenue")
 
 # Combine the density estimates into a data frame
 densities <- data.frame(
-  x = c(dens_est_h_NSR$x, dens_est_h_gaus_bcv$x, dens_est_h_gaus_epan_bcv$x, 
+  x = c(dens_est_h_NSR$x, dens_est_h_gaus_bcv$x, dens_est_h_gaus_epan_bcv$x,
         dens_est_h_gaus_triw_bcv$x, dens_est_h_gaus_biw_bcv$x),
   density = c(dens_est_h_NSR$y, dens_est_h_gaus_bcv$y, dens_est_h_gaus_epan_bcv$y,
               dens_est_h_gaus_triw_bcv$y, dens_est_h_gaus_biw_bcv$y),
