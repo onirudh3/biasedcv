@@ -54,7 +54,9 @@ triw_bcv <- h.bcv(x = df$profit_perc, kernel = "triweight")$h
 
 # Plot with comparison of estimators --------------------------------------
 
-hist(df$profit_perc, probability = T, ylim = c(0, 0.25))
+hist(df$profit_perc, probability = T, ylim = c(0, 0.25),
+     main = "Kernel estimators for various bandwidths",
+     xlab = "Profits as percentage of total assets")
 rug(df$profit_perc)
 lines(bkde(df$profit_perc, bandwidth = NSR), col = "#5d8aa8", lwd = 1.5,
       lty = 1)
@@ -66,7 +68,7 @@ lines(bkde(df$profit_perc, bandwidth = biw_bcv), col = "#00ffff", lwd = 1.5,
       lty = 1)
 lines(bkde(df$profit_perc, bandwidth = triw_bcv), col = "#00ff1f", lwd = 1.5,
       lty = 1)
-legend("topright", legend = c("NSR", "Gaussian BCV", "Epanechnikov BCV",
+legend("topright", legend = c("Gaussian NSR", "Gaussian BCV", "Epanechnikov BCV",
                               "Biweight BCV", "Triweght BCV"),
        col = c("#5d8aa8", "#e32636", "#ffbf00", "#00ffff", "#00ff1f"), lty = 1,
        cex = 0.8, lwd = 3, x.intersp = 1, text.width = 5)
