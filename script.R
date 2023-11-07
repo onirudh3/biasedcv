@@ -17,8 +17,8 @@ library(kedd) # for h.bcv()
 df <- read.csv("https://query.data.world/s/fpexibocaqatb6x6wghopimatt2ur4?dws=00000",
                header = TRUE, stringsAsFactors = FALSE)
 
-# Our variable of interest is profits as percentage of total assets tables.2.data.1.value
-# Other interesting variables are profits highlights.2.value, and profits as percentage of revenue tables.2.data.0.value
+# Our variable of interest is profits as percentage of total assets "tables.2.data.1.value"
+# Other interesting variables are profits "highlights.2.value", and profits as percentage of revenue "tables.2.data.0.value"
 df <- subset(df, select = c("title", "tables.2.data.1.value"))
 
 # Rename columns
